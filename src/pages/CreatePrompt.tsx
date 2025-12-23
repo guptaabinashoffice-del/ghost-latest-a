@@ -555,121 +555,65 @@ export default function CreatePrompt() {
                       <BookOpen className="h-5 w-5 text-primary drop-shadow-glow" />
                     </div>
                     <div>
-                      <CardTitle className="text-xl">System Prompt</CardTitle>
+                      <CardTitle className="text-xl">Prompts</CardTitle>
                       <CardDescription>
-                        The system prompt for AI content generation
+                        System and user prompts for AI content generation
                       </CardDescription>
                     </div>
                   </div>
-                  {systemPrompt && (
-                    <Button variant="outline" size="sm" onClick={() => copyToClipboard(systemPrompt, "System Prompt")} className="gap-2 shadow-sm futuristic-border glow-hover">
+                  {systemPrompt && userPrompt && (
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      onClick={() => {
+                        const combinedPrompts = `System Prompt:\n${systemPrompt}\n\nUser Prompt:\n${userPrompt}`;
+                        copyToClipboard(combinedPrompts, "Prompts");
+                      }} 
+                      className="gap-2 shadow-sm futuristic-border glow-hover"
+                    >
                       <Copy className="h-4 w-4" />
-                      Copy
+                      Copy All
                     </Button>
                   )}
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="min-h-[250px] max-h-[350px] overflow-y-auto rounded-xl border-2 border-dashed border-green-500/20 bg-gradient-to-br from-muted/30 to-green-500/5 p-6 relative">
-                  <div className="absolute inset-0 overflow-hidden rounded-xl">
-                    <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-green-300 to-transparent animate-scan"></div>
+                {systemPrompt && userPrompt ? (
+                  <div className="space-y-2">
+                    <Label className="text-base font-semibold text-primary">System Prompt & User Prompt</Label>
+                    <Textarea
+                      value={`System Prompt:\n${systemPrompt}\n\nUser Prompt:\n${userPrompt}`}
+                      readOnly
+                      className="min-h-[500px] resize-none futuristic-border bg-muted/30 font-mono text-sm"
+                    />
                   </div>
-
-                  {systemPrompt ? (
-                    <div className="whitespace-pre-wrap text-base leading-relaxed text-foreground relative z-10">
-                      {systemPrompt}
+                ) : (
+                  <div className="flex flex-col items-center justify-center min-h-[500px] text-center space-y-6">
+                    <div className="p-4 bg-muted/50 rounded-full animate-float">
+                      <BookOpen className="h-12 w-12 text-muted-foreground animate-pulse-glow" />
                     </div>
-                  ) : (
-                    <div className="flex flex-col items-center justify-center h-full text-center space-y-6">
-                      <div className="p-4 bg-muted/50 rounded-full animate-float">
-                        <BookOpen className="h-12 w-12 text-muted-foreground animate-pulse-glow" />
-                      </div>
-                      <div className="space-y-2">
-                        <h3 className="text-xl font-semibold text-muted-foreground">System Prompt Ready?</h3>
-                        <p className="text-muted-foreground max-w-md">
-                          Fill out the form on the left and click "Generate Prompts" to create your system prompt
-                        </p>
-                      </div>
-                      <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                        <div className="flex items-center gap-2">
-                          <CheckCircle className="h-4 w-4 text-green-400 animate-pulse" />
-                          AI-Powered
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <CheckCircle className="h-4 w-4 text-green-400 animate-pulse" style={{ animationDelay: '0.2s' }} />
-                          Professional
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <CheckCircle className="h-4 w-4 text-green-400 animate-pulse" style={{ animationDelay: '0.4s' }} />
-                          Ready
-                        </div>
-                      </div>
+                    <div className="space-y-2">
+                      <h3 className="text-xl font-semibold text-muted-foreground">Prompts Ready?</h3>
+                      <p className="text-muted-foreground max-w-md">
+                        Fill out the form on the left and click "Generate Prompts" to create your system and user prompts
+                      </p>
                     </div>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="futuristic-border glow-hover backdrop-blur-sm shadow-xl border-0 bg-card/50">
-              <CardHeader>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <div className="p-2 bg-primary/10 rounded-lg animate-data-pulse">
-                      <BookOpen className="h-5 w-5 text-primary drop-shadow-glow" />
-                    </div>
-                    <div>
-                      <CardTitle className="text-xl">User Prompt</CardTitle>
-                      <CardDescription>
-                        The user prompt for AI content generation
-                      </CardDescription>
+                    <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                      <div className="flex items-center gap-2">
+                        <CheckCircle className="h-4 w-4 text-green-400 animate-pulse" />
+                        AI-Powered
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <CheckCircle className="h-4 w-4 text-green-400 animate-pulse" style={{ animationDelay: '0.2s' }} />
+                        Professional
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <CheckCircle className="h-4 w-4 text-green-400 animate-pulse" style={{ animationDelay: '0.4s' }} />
+                        Ready
+                      </div>
                     </div>
                   </div>
-                  {userPrompt && (
-                    <Button variant="outline" size="sm" onClick={() => copyToClipboard(userPrompt, "User Prompt")} className="gap-2 shadow-sm futuristic-border glow-hover">
-                      <Copy className="h-4 w-4" />
-                      Copy
-                    </Button>
-                  )}
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="min-h-[250px] max-h-[350px] overflow-y-auto rounded-xl border-2 border-dashed border-green-500/20 bg-gradient-to-br from-muted/30 to-green-500/5 p-6 relative">
-                  <div className="absolute inset-0 overflow-hidden rounded-xl">
-                    <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-green-300 to-transparent animate-scan"></div>
-                  </div>
-
-                  {userPrompt ? (
-                    <div className="whitespace-pre-wrap text-base leading-relaxed text-foreground relative z-10">
-                      {userPrompt}
-                    </div>
-                  ) : (
-                    <div className="flex flex-col items-center justify-center h-full text-center space-y-6">
-                      <div className="p-4 bg-muted/50 rounded-full animate-float">
-                        <BookOpen className="h-12 w-12 text-muted-foreground animate-pulse-glow" />
-                      </div>
-                      <div className="space-y-2">
-                        <h3 className="text-xl font-semibold text-muted-foreground">User Prompt Ready?</h3>
-                        <p className="text-muted-foreground max-w-md">
-                          Fill out the form on the left and click "Generate Prompts" to create your user prompt
-                        </p>
-                      </div>
-                      <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                        <div className="flex items-center gap-2">
-                          <CheckCircle className="h-4 w-4 text-green-400 animate-pulse" />
-                          AI-Powered
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <CheckCircle className="h-4 w-4 text-green-400 animate-pulse" style={{ animationDelay: '0.2s' }} />
-                          Professional
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <CheckCircle className="h-4 w-4 text-green-400 animate-pulse" style={{ animationDelay: '0.4s' }} />
-                          Ready
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </div>
+                )}
               </CardContent>
             </Card>
           </div>
