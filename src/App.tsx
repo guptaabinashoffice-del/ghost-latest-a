@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Layout } from "./components/Layout";
 import Index from "./pages/Index";
 import CreatePost from "./pages/CreatePost";
+import CreatePrompt from "./pages/CreatePrompt";
 import LeadMagnet from "./pages/LeadMagnet";
 import PostLibrary from "./pages/PostLibrary";
 import ContentCalendar from "./pages/ContentCalendar";
@@ -23,6 +24,7 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/create-post" element={<CreatePost />} />
+            <Route path="/create-prompt" element={<CreatePrompt />} />
             <Route path="/lead-magnet" element={<LeadMagnet />} />
             <Route path="/post-library" element={<PostLibrary />} />
             <Route path="/content-calendar" element={<ContentCalendar />} />

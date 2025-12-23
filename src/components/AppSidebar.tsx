@@ -1,4 +1,4 @@
-import { Calendar, Edit, Gift, Library, Home } from "lucide-react"
+import { Calendar, Edit, Gift, Library, Home, BookOpen } from "lucide-react"
 import { NavLink, useLocation } from "react-router-dom"
 import { MilitaryLogo } from "./ui/ghost-logo"
 
@@ -17,6 +17,7 @@ import {
 const items = [
   { title: "Home", url: "/", icon: Home },
   { title: "Create Post", url: "/create-post", icon: Edit },
+  { title: "Create Prompt", url: "/create-prompt", icon: BookOpen },
   { title: "Lead Magnet AI", url: "/lead-magnet", icon: Gift },
   { title: "Post Library", url: "/post-library", icon: Library },
   { title: "Content Calendar", url: "/content-calendar", icon: Calendar },
