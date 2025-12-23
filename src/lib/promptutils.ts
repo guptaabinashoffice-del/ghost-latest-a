@@ -72,13 +72,7 @@ const TEXT_SYSTEM_PROMPT = `You are an expert LinkedIn content strategist specia
 - DO NOT USE markdown in post content.
 - DO NOT USE REFERENCING/CITATION INSIDE POST CONTENT.
 
-**OUTPUT REQUIREMENTS:**
-Return ONLY a JSON object in this exact format:
-{
-  "content": "Generated LinkedIn post content here with proper formatting and line breaks"
-}
-
-No additional text, explanations, or formatting outside the JSON structure. Search the web using search_web tool if needed.`;
+Highly reccommended to search the web using search web tool to get the latest information about the topic.`;
 
 /**
  * Base system prompt for URL/video-based posts (Gemini)
@@ -145,13 +139,7 @@ const URL_SYSTEM_PROMPT = `You are an expert LinkedIn content strategist special
 - DO NOT USE markdown in post content
 - DO NOT USE REFERENCING/CITATION INSIDE POST CONTENT
 
-**OUTPUT REQUIREMENTS:**
-Return ONLY a JSON object in this exact format:
-{
-  "content": "Generated LinkedIn post content here with proper formatting and line breaks"
-}
-
-No additional text, explanations, or formatting outside the JSON structure.`;
+Highly reccommended to search the web using search web tool to get the latest information about the topic.`;
 
 /**
  * Generate user prompt for text-based posts
