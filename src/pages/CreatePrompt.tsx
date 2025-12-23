@@ -14,6 +14,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { generatePrompts, type PromptInputs } from "@/lib/promptutils";
 
 const formatUrl = (url: string) => {
   let formatted = url.trim().replace(/\s+/g, '');
@@ -58,11 +59,9 @@ export default function CreatePrompt() {
   const [isLoadingAiSuggestions, setIsLoadingAiSuggestions] = useState(false);
   const [showSuggestionDropdown, setShowSuggestionDropdown] = useState(false);
 
-  const webhookUrl = import.meta.env.VITE_WEBHOOK_URL;
   const askAiWebhookUrl = import.meta.env.VITE_ASK_AI_WEBHOOK_URL;
 
   console.log("🔍 Debug Info:");
-  console.log("Main Webhook URL:", webhookUrl);
   console.log("Ask AI Webhook URL:", askAiWebhookUrl);
 
   const { toast } = useToast();
@@ -111,18 +110,8 @@ export default function CreatePrompt() {
     console.log("🚀 Form submission started");
     console.log("Form data:", data);
 
-    if (!webhookUrl) {
-      console.error("❌ Webhook URL is not defined!");
-      toast({
-        title: "Configuration Error",
-        description: "Webhook URL is not configured. Please check your environment variables.",
-        variant: "destructive"
-      });
-      return;
-    }
-
     let processedTopic = data.topic;
-    let finalTopicType = data.topicType;
+    let finalTopicType: "text" | "url" = data.topicType as "text" | "url";
 
     if (data.topicType === "url") {
       processedTopic = formatUrl(data.topic);
@@ -140,49 +129,31 @@ export default function CreatePrompt() {
 
     setIsGenerating(true);
     try {
-      const requestPayload = {
-        action: "generate_prompt",
+      const promptInputs: PromptInputs = {
         category: data.category,
         topic: processedTopic,
         topicType: finalTopicType,
         tone: data.tone
       };
 
-      console.log("📤 Sending request to webhook:");
-      console.log("Payload:", requestPayload);
+      console.log("📝 Generating prompts with inputs:", promptInputs);
 
-      const response = await fetch(webhookUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(requestPayload)
-      });
+      const generatedPrompts = generatePrompts(promptInputs);
+      console.log("✅ Prompts generated:", generatedPrompts);
 
-      if (!response.ok) {
-        console.error("❌ Response not OK:", {
-          status: response.status,
-          statusText: response.statusText
-        });
-        throw new Error("Failed to generate prompts");
-      }
-
-      const result = await response.json();
-      console.log("✅ Parsed response:", result);
-
-      setSystemPrompt(result.system_prompt || "System prompt will appear here...");
-      setUserPrompt(result.user_prompt || "User prompt will appear here...");
+      setSystemPrompt(generatedPrompts.systemPrompt);
+      setUserPrompt(generatedPrompts.userPrompt);
 
       toast({
         title: "Prompts Generated Successfully!",
-        description: "Your system and user prompts are ready to review"
+        description: `System and user prompts are ready to review (Model: ${generatedPrompts.model})`
       });
     } catch (error) {
       console.error("❌ Error generating prompts:", error);
 
       toast({
         title: "Generation Failed",
-        description: "Failed to generate prompts. Please check your webhook URL and try again.",
+        description: "Failed to generate prompts. Please try again.",
         variant: "destructive"
       });
     } finally {
